@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /images
+  images/
 
 * **Method:**
 

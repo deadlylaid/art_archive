@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /images/search
+  images/search/
 
 * **Method:**
 

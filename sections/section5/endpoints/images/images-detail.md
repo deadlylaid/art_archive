@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /images/`image-id`
+  images/`image-id`/
 
 * **Method:**
 
