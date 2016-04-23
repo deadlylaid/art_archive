@@ -1,4 +1,3 @@
-----
 **images/**
 ----
   Returns json data for list of images
