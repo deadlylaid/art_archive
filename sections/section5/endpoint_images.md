@@ -2,11 +2,11 @@
 ----
   Returns json data related to Images
 
-  * images/
+  * [images/](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoints/images/images.md)
     * Get information about images
-  * images/`image-id`
+  * [images/`image-id`](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoints/images/images-detail.md)
     * Get information about a image
-  * images/search
+  * [images/search](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoints/images/images-search.md)
     * Search for images by parameters
 
 ----
@@ -31,7 +31,7 @@
 
       * `count`
 
-        Number of items to show. The `count` value will be neglected if it is it is larger than the actual list count. If not specified, will show entire list. (Pagination feature will be added in near future)
+        Number of items to show. The `count` value will be neglected if it is larger than the actual list count. If not specified, response will contain entire list. (Pagination feature will be added in near future)
 
       * `order`
 
