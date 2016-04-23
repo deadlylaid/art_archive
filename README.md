@@ -13,6 +13,6 @@
 
   > 데이터 베이스(MySQL) 관점에서 CRUD는 각각 INSERT, SELECT, UPDATE, DELETE과 대응되는 개념이라고 볼 수 있다.
 
-#### 5. art_archive 데이터를 활용한 CRUD 기반의 REST API를 설계하시고 이 API를 활용할 다른 엔지니어들이 이해할 수 있는 Documentation 을 만들어주세요. [풀이](https://github.com/paulsoh/art_archive/blob/master/sections/section5.md)
+#### 5. art_archive 데이터를 활용한 CRUD 기반의 REST API를 설계하시고 이 API를 활용할 다른 엔지니어들이 이해할 수 있는 Documentation 을 만들어주세요. [풀이](https://github.com/paulsoh/art_archive/blob/master/sections/section5/section5.md)
 
 #### 6. TDD 를 설명해주세요. 이 개발 방식의 장단점은 무엇일까요? [풀이](https://github.com/paulsoh/art_archive/blob/master/sections/section6.md)

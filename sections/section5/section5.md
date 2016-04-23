@@ -1,9 +1,8 @@
 **ART_ARCHIVE API DOCUMENTATION**
 ----
 * **ENDPOINTS**
-  * IMAGES
-  * ARTISTS
-
+  * [IMAGES](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoint_images.md)
+  * [ARTISTS](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoint_artists.md)
 
 * **Response:**
 
@@ -40,7 +39,7 @@
       "data" : null,
     }
     ```
-    
+
     ```
     {
       "meta" : {
