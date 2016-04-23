@@ -28,18 +28,16 @@
     "meta" : {
       "response_code" : 200  
     },
-    "data" : [
-      {
-        "id" : 12,
-        "image_url": "https://image.path.jpg",
-        "title": "Image title",
-        "year": 2016,
-        "artist_id": 1,
-        "artist_name": "Artist name",
-        "description": "Image description",
-        "artist_href": "path/to/artist/info",
-      }
-    ]
+    "data" : {
+      "id" : 12,
+      "image_url": "https://image.path.jpg",
+      "title": "Image title",
+      "year": 2016,
+      "artist_id": 1,
+      "artist_name": "Artist name",
+      "description": "Image description",
+      "artist_href": "path/to/artist/info",
+    }
   }
   ```
 
