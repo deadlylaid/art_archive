@@ -1,13 +1,13 @@
 **ART_ARCHIVE API DOCUMENTATION**
 ----
-* **ENDPOINTS**
-  * [IMAGES](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoint_images.md)
-  * [ARTISTS](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoint_artists.md)
+* **Key Endpoints**
+  * [Images](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoint_images.md)
+  * [Artists](https://github.com/paulsoh/art_archive/blob/master/sections/section5/endpoint_artists.md)
 
 * **Response:**
 
     Any kind of **Response** from ART_ARCHIVE REST API will be in the following structure
-    
+
     ```
     {
       "meta" : {
