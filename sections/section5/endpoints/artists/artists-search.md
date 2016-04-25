@@ -44,7 +44,7 @@
 
       * `order`
 
-        Order of artist shown based on `id` data of artist. `id` value represents the order of artist being added to the database. `desc` will show artist in descending order (From most recent to least recent) whereas `asc` with show artist in ascending order (From least recent to most recent). If not specified default `order` value is `asc`
+        Order of artist shown based on `created_at` data of artist. `created_at` value represents the UNIX timestamp of when the artist was added to the database. `desc` will show artist in descending order (From most recent to least recent) whereas `asc` with show artist in ascending order (From least recent to most recent). If not specified default `order` value is `asc`
 
 * **Data Params:**
   `None`
@@ -62,6 +62,7 @@
     "data" : [
       {
         "id" : 12,
+        "created_at" : 1461570127,
         "name": "Artist name",
         "birth_year": 1920,
         "death_year": 2000,
