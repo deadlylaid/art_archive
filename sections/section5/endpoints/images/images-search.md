@@ -43,9 +43,23 @@
         usage:
         `/images/search/?description=나무판 위에 유채?genre=르네상스?artist_name=레오나르도 다 빈치?year=1517&title=모나리자`
 
-      * `count`
+      * `max_items`
 
-        Number of items to show. The `count` value will be neglected if it is larger than the actual list count. If not specified, response will contain entire list. (Pagination feature will be added in near future)
+        Number of images to show. If value of `max_item` if larger than actual items in query result, it will be stated in `response_msg` within `meta`
+        ```
+        {
+          "meta" : {
+            "response_code" : 200,
+            "response_msg" : "requested with max_items: 20 but only 14 items were found matching the query",
+          },
+          "data" : [{
+
+           },
+           ...
+           ]
+        }
+        ```
+        If not specified, response will contain entire list. (Pagination feature will be added in near future)
 
       * `order`
 

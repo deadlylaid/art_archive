@@ -38,9 +38,23 @@
         usage:
         `/artists/search/?alive_in=1877&genre=인상주의&country=네더랜드&name=빈센트`
 
-      * `count`
+      * `max_items`
 
-        Number of artists to show. The `count` value will be neglected if it is larger than the actual list count. If not specified, response will contain entire list. (Pagination feature will be added in near future)
+        Number of artists to show. If value of `max_item` if larger than actual items in query result, it will be stated in `response_msg` within `meta`
+        ```
+        {
+          "meta" : {
+            "response_code" : 200,
+            "response_msg" : "requested with max_items: 20 but only 14 items were found matching the query",
+          },
+          "data" : [{
+
+           },
+           ...
+           ]
+        }
+        ```
+        If not specified, response will contain entire list. (Pagination feature will be added in near future)
 
       * `order`
 
