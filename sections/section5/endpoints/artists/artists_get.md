@@ -63,6 +63,18 @@
     "data" : null,
   }
   ```
+  
+  ```
+  {
+    "meta" : {
+      "response_code" : 500 ,
+      'error_type" : "INTERNAL SERVER ERROR",
+      "error_msg" : "The server encountered an unexpected condition which prevented it
+   from fulfilling the request.",
+    },
+    "data" : null,
+  }
+  ```
 
 * **Sample Call:**
 
