@@ -66,8 +66,16 @@
 * **Success Response:**
 
     + The structure of the success response is identical to the success response of `artists/`.
-    + If no item is retrieved, `"data"` will be returned as null.
-
+    + If no item is retrieved, `"data"` will be returned as null and `"meta"` will contain an explicit `"response_msg"` as following:
+      ```
+      {
+          "meta" : {
+            "response_code" : 200,
+            "response_msg" : "No results were retrieved from database",
+          },
+          "data" : null
+      }
+      ```
   ```
   {
     "meta" : {
