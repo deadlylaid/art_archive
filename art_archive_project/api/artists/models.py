@@ -1,5 +1,6 @@
 from datetime import datetime
 from api import db
+from api.images.models import Image
 
 
 class Artist(db.Model):
@@ -11,6 +12,10 @@ class Artist(db.Model):
     death_year = db.Column(db.Integer)
     country = db.Column(db.String(45))
     genre = db.Column(db.String(45))
+    images = db.relationship(
+        Image,
+        backref=db.backref('artist'),
+    )
     created_at = db.Column(db.DateTime(timezone=False))
     updated_at = db.Column(db.DateTime(timezone=False))
 
