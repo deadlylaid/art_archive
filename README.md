@@ -45,3 +45,8 @@
       * Debugger is active!
       * Debugger pin code: 223-649-643
       ```
+
+    4. 단위 테스트 Suite 실행 
+      ```
+      (art_archive) $ ./test.sh
+      ```
