@@ -26,16 +26,21 @@
     * 사용한 Python 패키지: Flask 외 다수 (requiremest.txt 참조)
 2. 개발 환경 맞추기
     1. 가상 환경 생성 및 구동(Python 3.5.1)
+    
       ```
       $ pyenv virtualenv 3.5.1 art_archive
       $ pyenv activate art_archive
       $ (art_archive) $
       ```
+    
     2. 개발 환경 동기화
+    
       ```
       (art_archive) $ pip install -r requirements.txt
       ```
+      
     3. 서버 구동
+    
       ```
       (art_archive) $ python art_archive_project/run.py
       ```
