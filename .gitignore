@@ -63,3 +63,7 @@ target/
 
 #System settings
 .env
+
+# Backup
+*.swp
+*.swo
