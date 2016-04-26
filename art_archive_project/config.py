@@ -10,3 +10,6 @@ PORT = 8000
 
 # Base directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# DATABASE URI
+SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/art_archive'

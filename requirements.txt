@@ -1,3 +1,6 @@
 Flask
 ipython
 Flask-Testing
+sqlalchemy
+mysqlclient
+flask-sqlalchemy
