@@ -11,7 +11,7 @@ class TestAPITestCase(TestCase):
         return app
 
     def test_response_code_is_200(self):
-        response = self.client.get("/test/api/")
+        response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
 
     def test_response_code_is_404(self):
