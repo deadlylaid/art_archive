@@ -1,4 +1,4 @@
-**images/**
+**artists/**
 ----
   Add(insert) an artist to database
 
@@ -32,54 +32,49 @@
 
     * `birth_year`: `[Integer]` year of birth of artist
     * `death_year`: `[Integer]` year of death of artist
+
+
 * **Success Response:**
 
-  ```
-  {
-    "meta" : {
-      "response_code" : 201  
-    },
-    "data" : {
-      "id" : 12,
-      "name": "New Artist name",
-      "birth_year": null,
-      "death_year": null,
-      "country": "미국",
-      "genre": "인상주의",
-      "artworks_href": "path/to/artworks/for/artist",
-    },
-  }
-  ```
+  * **Code:** 201 CREATED
+
+    ```
+    {
+      "data" : {
+        "id" : 12,
+        "name": "New Artist name",
+        "birth_year": null,
+        "death_year": null,
+        "country": "미국",
+        "genre": "인상주의",
+        "artworks_href": "path/to/artworks/for/artist",
+      },
+    }
+    ```
 
 * **Error Response:**
-  ```
-  {
-    "meta" : {
-      "response_code" : 422 ,
-      'error_type" : "UNPROCESSABLE ENTRY",
-      "error_msg" : "name field is required for adding an artist.",
-    },
-    "data" : null,
-  }
-  ```
 
-  ```
-  {
-    "meta" : {
-      "response_code" : 500 ,
-      'error_type" : "INTERNAL SERVER ERROR",
-      "error_msg" : "The server encountered an unexpected condition which prevented it
-   from fulfilling the request.",
-    },
-    "data" : null,
-  }
-  ```
+  * **Code:** 422 UNPROCESSABLE ENTRY
+
+    ```
+    {
+      "error" : "name field is required for adding an artist.",
+    }
+    ```
+
+  * **Code:** 500 INTERNAL SERVER ERROR
+
+    ```
+    {
+      "error" : "The server encountered an unexpected condition which prevented it from fulfilling the request."
+    }
+    ```
 
 * **Sample Call:**
 
   ```javascript
     $.ajax({
-      url: "/images/",
+      url: "/artists/",
       dataType: "json",
       type : "POST",
       data : {

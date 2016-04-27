@@ -6,50 +6,29 @@
 
 * **Response:**
 
-    Any kind of **Response** from ART_ARCHIVE REST API will be in the following structure
-
-    ```
-    {
-      "meta" : {
-        "response_code" : 200,
-      },
-      "data" : ...
-    }
-    ```
+    **Response** from ART_ARCHIVE REST API will be in the following structure
 
     * **In case of success:**
-    ```
-    {
-      "meta" : {
-        "response_code" : 200  
-      },
-      "data" : {
-        "id" : 12,
-      }
-    }
-    ```
-    * **In case of error:**
-    ```
-    {
-      "meta" : {
-        "response_code" : 422 ,
-        'error_type" : "UNPROCESSABLE ENTRY",
-        "error_msg" : "Email invalid",
-      },
-      "data" : null,
-    }
-    ```
 
-    ```
-    {
-      "meta" : {
-        "response_code" : 401 ,
-        'error_type" : "UNAUTHORIZED",
-        "error_msg" : "Log in",
-      },
-      "data" : null,
-    }
-    ```
+      * **Code:** 200 OK
+        ```
+        {
+          "meta" : {
+            "response_msg" : "verbose description about response (if necessary)"  
+          },
+          "data" : {
+            "id" : 12,
+          }
+        }
+        ```
+    * **In case of error:**
+
+      * **Code:** 422 UNPROCESSABLE ENTITY
+        ```
+        {
+          "error" : "description about error",
+        }
+        ```
 
 * **Notes:**
   This API Documentation is inspired(?) by:

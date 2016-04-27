@@ -44,7 +44,6 @@
         ```
         {
           "meta" : {
-            "response_code" : 200,
             "response_msg" : "requested with max_items: 20 but only 14 items were found matching the query",
           },
           "data" : [{
@@ -58,70 +57,66 @@
 
       * `order`
 
-        Order of artist shown based on `created_at` data of artist. `created_at` value represents the UNIX timestamp of when the artist was added to the database. `desc` will show artist in descending order (From most recent to least recent) whereas `asc` with show artist in ascending order (From least recent to most recent). If not specified default `order` value is `asc`
+        Order of artist shown based on `created_at` data of artist. `created_at` value represents the timestamp of when the artist was added to the database. `desc` will show artist in descending order (From most recent to least recent) whereas `asc` with show artist in ascending order (From least recent to most recent). If not specified default `order` value is `asc`
 
 * **Data Params:**
   `None`
 
 * **Success Response:**
 
-    + The structure of the success response is identical to the success response of `artists/`.
-    + If no item is retrieved, `"data"` will be returned as null and `"meta"` will contain an explicit `"response_msg"` as following:
+  The structure of the success response is identical to the success response of `artists/`.
+
+  * **Code:** 200 OK
+
+    ```
+    {
+      "data" : [
+        {
+          "id" : 12,
+          "created_at" : 1461570127,
+          "name": "Artist name",
+          "birth_year": 1920,
+          "death_year": 2000,
+          "country": "미국",
+          "genre": "인상주의",
+          "detail_href": "path/to/artist/detail/info",
+        },
+        {
+            ...,
+        },
+      ],
+    }
+    ```
+
+    + If no item is retrieved, response will be as following:
+
       ```
       {
           "meta" : {
-            "response_code" : 200,
             "response_msg" : "No results were retrieved from database",
           },
           "data" : null
       }
       ```
-  ```
-  {
-    "meta" : {
-      "response_code" : 200  
-    },
-    "data" : [
-      {
-        "id" : 12,
-        "created_at" : 1461570127,
-        "name": "Artist name",
-        "birth_year": 1920,
-        "death_year": 2000,
-        "country": "미국",
-        "genre": "인상주의",
-        "detail_href": "path/to/artist/detail/info",
-      },
-      {
-          ...,
-      },
-    ],
-  }
-  ```
 
 * **Error Response:**
-  ```
-  {
-    "meta" : {
-      "response_code" : 422 ,
-      'error_type" : "UNPROCESSABLE ENTRY",
-      "error_msg" : "invalid parameter, supported parameters are name, country, genre, alive_in, count, order",
-    },
-    "data" : null,
-  }
-  ```
-  
-  ```
-  {
-    "meta" : {
-      "response_code" : 500 ,
-      'error_type" : "INTERNAL SERVER ERROR",
-      "error_msg" : "The server encountered an unexpected condition which prevented it
-   from fulfilling the request.",
-    },
-    "data" : null,
-  }
-  ```
+
+  * **Code:** 422 UNPROCESSABLE ENTRY
+
+    ```
+    {
+      "error" : "invalid parameter, supported parameters are name, country, genre, alive_in, count, order"
+    }
+    ```
+
+  * **Code:** 500 INTERNAL SERVER ERROR
+
+    ```
+    {
+      "error" : "The server encountered an unexpected condition which prevented it from fulfilling the request.",
+    }
+    ```
+
 * **Sample Call:**
 
   ```javascript

@@ -23,58 +23,52 @@
 
       * `order`
 
-        Order of artist shown based on `id` data of artist. `id` value represents the order of artist being added to the database. `desc` will show artist in descending order (From most recent to least recent) whereas `asc` with show artist in ascending order (From least recent to most recent). If not specified default `order` value is `asc`
+        Order of artist shown based on `id` data of artist. `desc` will show artist in descending order, whereas `asc` with show artist in ascending order. If not specified default `order` value is `asc`
+
 
 * **Data Params:**
   `None`
 
 * **Success Response:**
 
-  ```
-  {
-    "meta" : {
-      "response_code" : 200  
-    },
-    "data" : [
-      {
-        "id" : 12,
-        "name": "Artist name",
-        "birth_year": 1920,
-        "death_year": 2000,
-        "country": "미국",
-        "genre": "인상주의",
-        "detail_href": "path/to/artist/detail/info",
-      },
-      {
-          ...,
-      },
-    ]
-  }
-  ```
+  * **Code:** 200 OK
+
+    ```
+    {
+      "data" : [
+        {
+          "id" : 12,
+          "name": "Artist name",
+          "birth_year": 1920,
+          "death_year": 2000,
+          "country": "미국",
+          "genre": "인상주의",
+          "detail_href": "path/to/artist/detail/info",
+        },
+        {
+            ...,
+        },
+      ]
+    }
+    ```
 
 * **Error Response:**
-  ```
-  {
-    "meta" : {
-      "response_code" : 422 ,
-      'error_type" : "UNPROCESSABLE ENTRY",
-      "error_msg" : "order parameter invalid, try desc or asc",
-    },
-    "data" : null,
-  }
-  ```
-  
-  ```
-  {
-    "meta" : {
-      "response_code" : 500 ,
-      'error_type" : "INTERNAL SERVER ERROR",
-      "error_msg" : "The server encountered an unexpected condition which prevented it
-   from fulfilling the request.",
-    },
-    "data" : null,
-  }
-  ```
+
+  * **Code:** 422 UNPROCESSABLE ENTRY
+
+    ```
+    {
+      "error" : "order parameter invalid, try desc or asc",
+    }
+    ```
+
+  * **Code:** 500 INTERNAL SERVER ERROR
+
+    ```
+    {
+      "error" : "The server encountered an unexpected condition which prevented it from fulfilling the request.",
+    }
+    ```
 
 * **Sample Call:**
 
