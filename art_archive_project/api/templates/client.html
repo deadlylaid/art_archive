@@ -68,8 +68,8 @@
           $iframe.contents().find('html').html(JSON.stringify(r));
         },
         error: function(r) {
-          console.log(r);
-          $iframe.contents().find('html').html(JSON.stringify(r));
+          console.log(r.responseText);
+          $iframe.contents().find('html').html(JSON.stringify(r.responseText));
         }
       });
   })
