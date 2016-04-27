@@ -105,7 +105,7 @@
 
     ```
     {
-      "error" : "invalid parameter, supported parameters are name, country, genre, alive_in, count, order"
+      "error" : "order parameter invalid, try desc or asc"
     }
     ```
 
