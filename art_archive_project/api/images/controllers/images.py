@@ -42,8 +42,8 @@ def images_list():
             datum['artist_id'] = image.artist_id
             datum['artist_name'] = image.artist.name
             datum['description'] = image.description
-            datum['artist_href'] = \
-                request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=image.artist.id)
+            datum['detail_href'] = \
+                request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
             data.append(datum)
         return {"data": data}, 200
 
@@ -84,8 +84,8 @@ def images_list():
             data['artist_id'] = new_image.artist_id
             data['artist_name'] = new_image.artist.name
             data['description'] = new_image.description
-            data['artist_href'] = \
-                request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=new_image.artist.id)
+            data['detail_href'] = \
+                request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
             return {"data": data}, 201
 
         except Exception:
