@@ -71,4 +71,58 @@ def artists_list():
         return jsonify(artists_response)
 
     if request.method == 'POST':
-        pass
+        from api import db
+
+        name = request.values.get('name')
+        country = request.values.get('country')
+        genre = request.values.get('genre')
+        birth_year = request.values.get('birth_year')
+        death_year = request.values.get('death_year')
+
+        # Required Fields: name, country, genre
+        if not (name and country and genre):
+            return jsonify(
+                    {
+                        "meta": {
+                            "response_code": 422,
+                            "error_type": "UNPROCESSABLE ENTRY",
+                            "error_msg": "name, country, genre are required parameters",
+                        },
+                        "data": None
+                    }
+            )
+
+        new_artist = Artist(name=name, country=country, genre=genre, birth_year=birth_year, death_year=death_year)
+        db.session.add(new_artist)
+
+        from _mysql_exceptions import OperationalError
+        try:
+            db.session.commit()
+            data = {}
+            data['id'] = new_artist.id
+            data['name'] = new_artist.name
+            data['birth_year'] = new_artist.birth_year
+            data['death_year'] = new_artist.death_year
+            data['country'] = new_artist.country
+            data['genre'] = new_artist.genre
+            data['artworks_href'] = "Not implemented yet"
+
+            return jsonify(
+                {
+                    "meta": {
+                        "response_code": 200,
+                    },
+                    "data": data
+                }
+            )
+        except OperationalError:
+            return jsonify(
+                {
+                    "meta": {
+                        "response_code": 422,
+                        "error_type": "UNPROCESSABLE ENTRY",
+                        "error_msg": "name, country, genre should be string, birth_year, death_year should by int",
+                    },
+                    "data": None
+                }
+            )
