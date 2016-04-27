@@ -42,7 +42,7 @@ class APIArtistsImagesModelsTestCase(TestCase):
         db.session.add(image)
         db.session.commit()
 
-        self.assertEqual(artist.images.first().title, image.title)
+        self.assertEqual(artist.images.pop(0).title, image.title)
 
     def test_images_has_artist(self):
         artist = Artist(

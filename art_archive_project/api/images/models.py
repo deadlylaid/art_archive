@@ -1,5 +1,4 @@
 from api import db
-from api.artists.models import Artist
 
 
 class Image(db.Model):
@@ -10,10 +9,6 @@ class Image(db.Model):
     title = db.Column(db.String(255))
     year = db.Column(db.Integer)
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'))
-    artist = db.relationship(
-        Artist,
-        backref=db.backref('images', lazy='dynamic'),
-    )
     description = db.Column(db.String(255))
 
     def __init__(self, title=None, image_url=None, artist=None, **image_info):

@@ -1,11 +1,10 @@
 from flask import Blueprint
 from flask import jsonify
+from flask import render_template
+
+test_api = Blueprint('test', __name__, url_prefix='/')
 
 
-test_api = Blueprint('test', __name__, url_prefix='/test')
-
-
-@test_api.route("/api/")
+@test_api.route("/")
 def get_api():
-    test_response = {"Hello": "World", "Welcome": "to our API"}
-    return jsonify(test_response)
+    return render_template('client.html')
