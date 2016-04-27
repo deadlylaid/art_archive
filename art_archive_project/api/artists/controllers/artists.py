@@ -70,7 +70,7 @@ def artists_list():
             data['country'] = new_artist.country
             data['genre'] = new_artist.genre
             data['artworks_href'] = "Not implemented yet"
-            return {"data": data}, 200
+            return {"data": data}, 201
 
         except Exception:
             return {"error": "name, country, genre should be string, birth_year, death_year should by int"}, 422
