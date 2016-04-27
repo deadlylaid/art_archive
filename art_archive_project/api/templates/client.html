@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Art_archive restful api</title>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+
+<style>
+* {
+    margin: 0;
+}
+</style>
+</head>
+<body>
+    <div style="width: 50%; float: left;" class="controls">
+        <h1>Insert Artist info</h1>
+            <label>Name</label>
+            <input id="name" class="text" name="name" type="text">
+            </br>
+            <label>Country</label>
+            <input id="country" class="text" name="country" type="text">
+            </br>
+            <label>Genre</label>
+            <input id="genre" class="text" name="genre" type="text">
+            </br>
+            <label>Birth year(optional)</label>
+            <input id="birth" class="text" name="birth_year" type="text">
+            </br>
+            <label>Death year(optional)</label>
+            <input id="death" class="text" name="death_year" type="text">
+            <input id="submit" value="Submit" name="submit" type="submit">
+    </div>
+    <div style="width: 50%; float: left; background: #eeeeee;" class="iframe-wrapper">
+        <iframe style="width: 100%" class="results" src="" frameborder="0"> </iframe>
+    </div>
+    
+    
+</body>
+<script>
+  $name = $('#name'); 
+  $country = $('#country'); 
+  $genre = $('#genre'); 
+  $birth = $('#birth'); 
+  $death = $('#death'); 
+  $submit = $('#submit');
+  $iframe = $('.results');
+
+  $submit.on("click", function(){
+      name = $name.val(); 
+      country = $country.val(); 
+      genre = $genre.val(); 
+      birth = $birth.val(); 
+      death = $death.val(); 
+
+      $.ajax({
+        url: "/artists/",
+        dataType: "json",
+        type : "POST",
+        data : {
+          "name": name,
+          "country": country,
+          "genre": genre,
+          "birth_year": birth,
+          "death_year": death,
+        },
+        success : function(r) {
+          console.log(r);
+          $iframe.contents().find('html').html(JSON.stringify(r));
+        },
+        error: function(r) {
+          console.log(r);
+          $iframe.contents().find('html').html(JSON.stringify(r));
+        }
+      });
+  })
+</script>
+</html>
