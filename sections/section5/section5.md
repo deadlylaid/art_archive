@@ -11,6 +11,7 @@
     * **In case of success:**
 
       * **Code:** 200 OK
+
         ```
         {
           "meta" : {
@@ -21,9 +22,11 @@
           }
         }
         ```
+
     * **In case of error:**
 
       * **Code:** 422 UNPROCESSABLE ENTITY
+
         ```
         {
           "error" : "description about error",
