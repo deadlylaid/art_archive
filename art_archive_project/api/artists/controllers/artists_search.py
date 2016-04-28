@@ -13,28 +13,27 @@ from api.utils.errors import bad_request, unprocessable_entry
 @json
 def artists_search():
     # Handling parameters
-    name = request.args.get('name', None)
-    country = request.args.get('country', None)
-    genre = request.args.get('genre', None)
-    alive_in = request.args.get('alive_in', None)
-    max_items = request.args.get('max_items', None)
-    order = request.args.get('order', None)
+    params = {
+        param: request.args[param]
+        for param in request.args
+        if param in ['name', 'country', 'genre', 'alive_in', 'max_items', 'order']
+    }
 
-    if not (name or country or genre or alive_in or max_items or order):
+    if not len(params):
         return bad_request("at least one parameter is required for search function")
 
     current_query = Artist.query
-
-    if name:
-        current_query = Artist.query.filter(Artist.name.contains(name))
-    if country:
-        current_query = current_query.filter(Artist.country.contains(country))
-    if genre:
-        current_query = current_query.filter(Artist.genre.contains(genre))
-    if alive_in:
-        current_query = current_query.filter(Artist.birth_year <= alive_in).\
-                                        filter(or_(Artist.death_year == None, Artist.death_year >= alive_in))
-    if order:
+    if 'name' in params:
+        current_query = Artist.query.filter(Artist.name.contains(params['name']))
+    if 'country' in params:
+        current_query = current_query.filter(Artist.country.contains(params['country']))
+    if 'genre' in params:
+        current_query = current_query.filter(Artist.genre.contains(params['genre']))
+    if 'alive_in' in params:
+        current_query = current_query.filter(Artist.birth_year <= params['alive_in']).\
+                                        filter(or_(Artist.death_year == None, Artist.death_year >= params['alive_in']))
+    if 'order' in params:
+        order = params.get('order', 'asc')
         if order == "asc":
             current_query = current_query.order_by(Artist.created_at)
         elif order == "desc":
@@ -42,8 +41,9 @@ def artists_search():
         else:
             return unprocessable_entry("order parameter invalid, try desc or asc")
 
+    max_items = params.get('max_items', None)
     if max_items:
-        current_query = current_query.limit(max_items)
+        current_query = current_query.limit(params['max_items'])
 
     query_result = current_query.all()
 
