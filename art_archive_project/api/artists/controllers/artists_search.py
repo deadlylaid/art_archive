@@ -47,14 +47,9 @@ def artists_search():
 
     data = []
     for artist in query_result:
-        datum = {}
-        datum['id'] = artist.id
-        datum['name'] = artist.name
-        datum['birth_year'] = artist.birth_year
-        datum['death_year'] = artist.death_year
-        datum['country'] = artist.country
-        datum['genre'] = artist.genre
-        datum['detail_href'] = request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=artist.id)
+        datum = artist.to_json
+        datum['detail_href'] = \
+            request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=artist.id)
         data.append(datum)
     if not data:
         return {"meta": {"response_msg": "No results were retrieved from database"}, "data": None}, 200

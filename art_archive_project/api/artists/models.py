@@ -29,3 +29,14 @@ class Artist(db.Model):
 
     def __repr__(self):
         return '<Artist: {}>'.format(self.name)
+
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'birth_year': self.birth_year,
+            'death_year': self.death_year,
+            'country': self.country,
+            'genre': self.genre,
+        }

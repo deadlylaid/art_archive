@@ -33,13 +33,7 @@ def artists_list():
 
         data = []
         for artist in artists:
-            datum = {}
-            datum['id'] = artist.id
-            datum['name'] = artist.name
-            datum['birth_year'] = artist.birth_year
-            datum['death_year'] = artist.death_year
-            datum['country'] = artist.country
-            datum['genre'] = artist.genre
+            datum = artist.to_json
             datum['detail_href'] = request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=artist.id)
             data.append(datum)
         return {"data": data}, 200
@@ -53,6 +47,9 @@ def artists_list():
         birth_year = request.values.get('birth_year')
         death_year = request.values.get('death_year')
 
+        birth_year = birth_year if birth_year != "" else None
+        death_year = death_year if death_year != "" else None
+
         # Required Fields: name, country, genre
         if not (name and country and genre):
             return {"error": "name, country, genre are required parameters"}, 422
@@ -62,14 +59,8 @@ def artists_list():
 
         try:
             db.session.commit()
-            data = {}
-            data['id'] = new_artist.id
-            data['name'] = new_artist.name
-            data['birth_year'] = new_artist.birth_year
-            data['death_year'] = new_artist.death_year
-            data['country'] = new_artist.country
-            data['genre'] = new_artist.genre
-            data['artworks_href'] = "Not implemented yet"
+            data = new_artist.to_json
+            data['artworks_href'] = request.host_url[:-1] + url_for('artists_api.artists_artworks', artist_id=new_artist.id)
             return {"data": data}, 201
 
         except Exception:
