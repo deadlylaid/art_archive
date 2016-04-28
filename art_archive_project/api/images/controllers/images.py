@@ -5,6 +5,7 @@ from api.images.models import Image
 from api.artists.models import Artist
 from api.images.controllers import images_api
 from api.utils.json_decorator import json
+from api.utils.errors import unprocessable_entry
 
 
 @images_api.route("/", methods=['GET', 'POST'])
@@ -21,16 +22,16 @@ def images_list():
         elif order == 'desc':
             images = Image.query.order_by(-Image.year).all()
         else:
-            return {"error": "order parameter invalid, try desc or asc"}, 422
+            return unprocessable_entry("order parameter invalid, try desc or asc")
 
         if count:
             try:
                 count = int(count)
                 if count <= 0:
-                    return {"error": "count parameter must be 'positive' integer"}, 422
+                    return unprocessable_entry("count parameter must be 'positive' integer")
                 images = images[:count]
             except ValueError:
-                return {"error": "count parameter must be positive 'integer'"}, 422
+                return unprocessable_entry("count parameter must be positive 'integer'")
 
         data = []
         for image in images:
@@ -51,11 +52,11 @@ def images_list():
 
         # Required Fields: title, image_url, image_year, artist_name, image_description
         if not (title and image_url and image_year and artist_name and image_description):
-            return {"error": "title, image_url, image_year, artist_name, image_description are required parameters"}, 422
+            return unprocessable_entry("title, image_url, image_year, artist_name, image_description are required parameters")
 
         artist = Artist.query.filter(Artist.name == artist_name).first()
         if not artist:
-            return {"error": "artist_name not found, artist_name should be in our artists database to add new image."}, 422
+            return unprocessable_entry("artist_name not found, artist_name should be in our artists database to add new image.")
 
         new_image = Image(
             title=title,
@@ -75,4 +76,4 @@ def images_list():
             return {"data": data}, 201
 
         except Exception:
-            return {"error": "title, image_url, description should be string, year should be integer"}, 422
+            return unprocessable_entry("title, image_url, description should be string, year should be integer")

@@ -7,6 +7,7 @@ from api.images.models import Image
 from api.artists.models import Artist
 from api.images.controllers import images_api
 from api.utils.json_decorator import json
+from api.utils.errors import bad_request, unprocessable_entry
 
 
 @images_api.route("/search/", methods=['GET'])
@@ -25,7 +26,7 @@ def images_search():
     order = request.args.get('order', None)
 
     if not (title or year or artist_name or genre or description or max_items or order):
-        return {"error": "at least one parameter is required for search function"}, 400
+        return bad_request("at least one parameter is required for search function")
 
     current_query = Image.query
 
@@ -43,7 +44,7 @@ def images_search():
         elif order == "desc":
             current_query = current_query.order_by(-Image.year)
         else:
-            return {"error": "order parameter invalid, try desc or asc"}, 422
+            return unprocessable_entry("order parameter invalid, try desc or asc")
     if max_items:
         current_query = current_query.limit(max_items)
 

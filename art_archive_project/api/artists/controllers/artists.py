@@ -4,6 +4,7 @@ from flask import request
 from api.artists.models import Artist
 from api.artists.controllers import artists_api
 from api.utils.json_decorator import json
+from api.utils.errors import unprocessable_entry
 
 
 @artists_api.route("/", methods=['GET', 'POST'])
@@ -20,16 +21,16 @@ def artists_list():
         elif order == 'desc':
             artists = Artist.query.order_by(-Artist.id).all()
         else:
-            return {"error": "order parameter invalid, try desc or asc"}, 422
+            return unprocessable_entry("order parameter invalid, try desc or asc")
 
         if count:
             try:
                 count = int(count)
                 if count <= 0:
-                    return {"error": "count parameter must be 'positive' integer"}, 422
+                    return unprocessable_entry("count parameter must be 'positive' integer")
                 artists = artists[:count]
             except ValueError:
-                return {"error": "count parameter must be positive 'integer'"}, 422
+                return unprocessable_entry("count parameter must be positive 'integer'")
 
         data = []
         for artist in artists:
@@ -51,7 +52,7 @@ def artists_list():
 
         # Required Fields: name, country, genre
         if not (name and country and genre):
-            return {"error": "name, country, genre are required parameters"}, 422
+            return unprocessable_entry("name, country, genre are required parameters")
 
         new_artist = Artist(name=name, country=country, genre=genre, birth_year=birth_year, death_year=death_year)
         db.session.add(new_artist)
@@ -63,4 +64,4 @@ def artists_list():
             return {"data": data}, 201
 
         except Exception:
-            return {"error": "name, country, genre should be string, birth_year, death_year should by int"}, 422
+            return unprocessable_entry("name, country, genre should be string, birth_year, death_year should by int")
