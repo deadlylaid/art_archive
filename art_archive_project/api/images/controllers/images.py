@@ -17,9 +17,9 @@ def images_list():
         count = request.args.get('count', None)
 
         if order == 'asc':
-            images = Image.query.order_by(Image.id).all()
+            images = Image.query.order_by(Image.year).all()
         elif order == 'desc':
-            images = Image.query.order_by(-Image.id).all()
+            images = Image.query.order_by(-Image.year).all()
         else:
             return {"error": "order parameter invalid, try desc or asc"}, 422
 
