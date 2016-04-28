@@ -42,19 +42,16 @@ def artists_list():
     if request.method == 'POST':
         from api import db
 
-        name = request.values.get('name')
-        country = request.values.get('country')
-        genre = request.values.get('genre')
+        params = {
+            param: request.values[param]
+            for param in request.values
+            if param in ['name', 'country', 'genre', 'birth_year', 'death_year']
+        }
 
-        from api.utils.nullify import nullify
-        birth_year = nullify(request.values.get('birth_year'))
-        death_year = nullify(request.values.get('death_year'))
-
-        # Required Fields: name, country, genre
-        if not (name and country and genre):
+        if not ('name' in params and 'country' in params and 'genre' in params):
             return unprocessable_entry("name, country, genre are required parameters")
 
-        new_artist = Artist(name=name, country=country, genre=genre, birth_year=birth_year, death_year=death_year)
+        new_artist = Artist(**params)
         db.session.add(new_artist)
 
         try:
