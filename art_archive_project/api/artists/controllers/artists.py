@@ -44,11 +44,10 @@ def artists_list():
         name = request.values.get('name')
         country = request.values.get('country')
         genre = request.values.get('genre')
-        birth_year = request.values.get('birth_year')
-        death_year = request.values.get('death_year')
 
-        birth_year = birth_year if birth_year != "" else None
-        death_year = death_year if death_year != "" else None
+        from api.utils.nullify import nullify
+        birth_year = nullify(request.values.get('birth_year'))
+        death_year = nullify(request.values.get('death_year'))
 
         # Required Fields: name, country, genre
         if not (name and country and genre):
