@@ -51,14 +51,7 @@ def images_search():
 
     data = []
     for image in query_result:
-        datum = {}
-        datum['id'] = image.id
-        datum['image_url'] = image.image_url
-        datum['title'] = image.title
-        datum['year'] = image.year
-        datum['artist_id'] = image.artist.id
-        datum['artist_name'] = image.artist.name
-        datum['description'] = image.description
+        datum = image.to_json
         datum['genre'] = image.artist.genre
         datum['detail_href'] = request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
         data.append(datum)

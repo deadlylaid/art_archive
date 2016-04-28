@@ -34,14 +34,7 @@ def images_list():
 
         data = []
         for image in images:
-            datum = {}
-            datum['id'] = image.id
-            datum['image_url'] = image.image_url
-            datum['title'] = image.title
-            datum['year'] = image.year
-            datum['artist_id'] = image.artist_id
-            datum['artist_name'] = image.artist.name
-            datum['description'] = image.description
+            datum = image.to_json
             datum['detail_href'] = \
                 request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
             data.append(datum)
@@ -76,16 +69,9 @@ def images_list():
 
         try:
             db.session.commit()
-            data = {}
-            data['id'] = new_image.id
-            data['image_url'] = new_image.image_url
-            data['title'] = new_image.title
-            data['year'] = new_image.year
-            data['artist_id'] = new_image.artist_id
-            data['artist_name'] = new_image.artist.name
-            data['description'] = new_image.description
+            data = new_image.to_json
             data['detail_href'] = \
-                request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
+                request.host_url[:-1] + url_for('images_api.images_detail', image_id=new_image.id)
             return {"data": data}, 201
 
         except Exception:

@@ -20,3 +20,15 @@ class Image(db.Model):
 
     def __repr__(self):
         return '<Image: {}>'.format(self.title)
+
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'image_url': self.image_url,
+            'title': self.title,
+            'year': self.year,
+            'artist_id': self.artist.id,
+            'artist_name': self.artist.name,
+            'description': self.description,
+        }
