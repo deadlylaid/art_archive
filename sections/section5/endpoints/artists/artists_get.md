@@ -19,7 +19,7 @@
 
       * `count`
 
-        Number of artists to show. The `count` value will be neglected if it is larger than the actual list count. If not specified, response will contain entire list. (Pagination feature will be added in near future)
+        Number of artists to show. The `count` value will be neglected if it is larger than the actual list count. If not specified, response will contain entire list.
 
       * `order`
 
