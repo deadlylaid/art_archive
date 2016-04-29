@@ -43,27 +43,27 @@ def images_list():
 
     if request.method == 'POST':
         from api import db
+        from api.utils.nullify import nullify
 
-        title = request.values.get('title')
-        image_url = request.values.get('image_url')
-        image_year = request.values.get('image_year')
-        artist_name = request.values.get('artist_name')
-        image_description = request.values.get('image_description')
+        required_params = ['title', 'image_url', 'image_year', 'artist_name', 'image_description']
 
-        # Required Fields: title, image_url, image_year, artist_name, image_description
-        if not (title and image_url and image_year and artist_name and image_description):
+        params = {
+            param: request.values[param]
+            for param in request.values
+            if param in required_params
+            if nullify(request.values[param])
+        }
+
+        if len(params) != len(required_params):
             return unprocessable_entry("title, image_url, image_year, artist_name, image_description are required parameters")
 
-        artist = Artist.query.filter(Artist.name == artist_name).first()
+        artist = Artist.query.filter(Artist.name == params['artist_name']).first()
         if not artist:
             return unprocessable_entry("artist_name not found, artist_name should be in our artists database to add new image.")
 
         new_image = Image(
-            title=title,
-            image_url=image_url,
             artist=artist,
-            year=image_year,
-            description=image_description
+            **params
         )
 
         db.session.add(new_image)
