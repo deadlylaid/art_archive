@@ -42,10 +42,12 @@ def artists_list():
     if request.method == 'POST':
         from api import db
 
+        input_params = ['name', 'country', 'genre', 'birth_year', 'death_year']
+
         params = {
             param: request.values[param]
             for param in request.values
-            if param in ['name', 'country', 'genre', 'birth_year', 'death_year']
+            if param in input_params
         }
 
         if not ('name' in params and 'country' in params and 'genre' in params):
