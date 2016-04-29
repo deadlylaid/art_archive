@@ -13,22 +13,42 @@
 </head>
 <body>
     <div style="width: 50%; float: left;" class="controls">
-        <h1>Insert Artist info</h1>
-            <label>Name</label>
-            <input id="name" class="text" name="name" type="text">
-            </br>
-            <label>Country</label>
-            <input id="country" class="text" name="country" type="text">
-            </br>
-            <label>Genre</label>
-            <input id="genre" class="text" name="genre" type="text">
-            </br>
-            <label>Birth year(optional)</label>
-            <input id="birth" class="text" name="birth_year" type="text">
-            </br>
-            <label>Death year(optional)</label>
-            <input id="death" class="text" name="death_year" type="text">
-            <input id="submit" value="Submit" name="submit" type="submit">
+        <div class="insert-image">
+            <h1>Insert Image info</h1>
+                <label>Title</label>
+                <input id="title" class="text" value="별헤는 밤" name="title" type="text">
+                </br>
+                <label>Image_url</label>
+                <input id="image_url" class="text" value="http://naver.com" name="image_url" type="text">
+                </br>
+                <label>Year</label>
+                <input id="year" class="text" value="1800" name="year" type="text">
+                </br>
+                <label>Artist name</label>
+                <input id="artist_name" value="빈센트 반 고흐" class="text" name="artist_name" type="text">
+                </br>
+                <label>Description</label>
+                <input id="description" value="유채" class="text" name="description" type="text">
+                <input id="submit-image" value="Submit" name="submit" type="submit">
+        </div>
+        <div class="insert-artist">
+            <h1>Insert Artist info</h1>
+                <label>Name</label>
+                <input id="name" class="text" name="name" type="text">
+                </br>
+                <label>Country</label>
+                <input id="country" class="text" name="country" type="text">
+                </br>
+                <label>Genre</label>
+                <input id="genre" class="text" name="genre" type="text">
+                </br>
+                <label>Birth year(optional)</label>
+                <input id="birth" class="text" name="birth_year" type="text">
+                </br>
+                <label>Death year(optional)</label>
+                <input id="death" class="text" name="death_year" type="text">
+                <input id="submit" value="Submit" name="submit" type="submit">
+        </div>
     </div>
     <div style="width: 50%; float: left; background: #eeeeee;" class="iframe-wrapper">
         <iframe style="width: 100%" class="results" src="" frameborder="0"> </iframe>
@@ -62,6 +82,42 @@
           "genre": genre,
           "birth_year": birth,
           "death_year": death,
+        },
+        success : function(r) {
+          console.log(r);
+          $iframe.contents().find('html').html(JSON.stringify(r));
+        },
+        error: function(r) {
+          console.log(r.responseText);
+          $iframe.contents().find('html').html(JSON.stringify(r.responseText));
+        }
+      });
+  })
+
+  $title = $('#title'); 
+  $image_url = $('#image_url'); 
+  $year = $('#year'); 
+  $artist_name = $('#artist_name'); 
+  $description = $('#description'); 
+  $submit_image = $('#submit-image');
+
+  $submit_image.on("click", function(){
+      title = $title.val(); 
+      image_url = $image_url.val(); 
+      year = $year.val(); 
+      artist_name = $artist_name.val(); 
+      description = $description.val(); 
+
+      $.ajax({
+        url: "/images/",
+        dataType: "json",
+        type : "POST",
+        data : {
+          "title": title,
+          "image_url": image_url,
+          "image_year": year,
+          "artist_name": artist_name,
+          "image_description": description,
         },
         success : function(r) {
           console.log(r);

@@ -1,6 +1,7 @@
 from datetime import datetime
 from api import db
 from api.images.models import Image
+from api.utils.nullify import nullify
 
 
 class Artist(db.Model):
@@ -19,13 +20,26 @@ class Artist(db.Model):
     created_at = db.Column(db.DateTime(timezone=False))
     updated_at = db.Column(db.DateTime(timezone=False))
 
-    def __init__(self, name=None, **artist_info):
-        self.name = name
-        self.birth_year = artist_info.get('birth_year', None)
-        self.death_year = artist_info.get('death_year', None)
-        self.country = artist_info.get('country', None)
-        self.genre = artist_info.get('genre', None)
+    def __init__(self, **artist_info):
+        self.name = artist_info.get('name')
+        self.country = artist_info.get('country')
+        self.genre = artist_info.get('genre')
+        self.birth_year = nullify(artist_info.get('birth_year'))
+        self.death_year = nullify(artist_info.get('death_year'))
         self.created_at = datetime.now()
+
 
     def __repr__(self):
         return '<Artist: {}>'.format(self.name)
+
+
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'birth_year': self.birth_year,
+            'death_year': self.death_year,
+            'country': self.country,
+            'genre': self.genre,
+        }

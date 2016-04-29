@@ -11,12 +11,24 @@ class Image(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'))
     description = db.Column(db.String(255))
 
-    def __init__(self, title=None, image_url=None, artist=None, **image_info):
-        self.image_url = image_url
-        self.title = title
-        self.year = image_info.get('year', None)
+    def __init__(self, artist=None, **image_info):
         self.artist = artist
+        self.image_url = image_info.get('image_url')
+        self.title = image_info.get('title')
+        self.year = image_info.get('year', None)
         self.description = image_info.get('description', None)
 
     def __repr__(self):
         return '<Image: {}>'.format(self.title)
+
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'image_url': self.image_url,
+            'title': self.title,
+            'year': self.year,
+            'artist_id': self.artist.id,
+            'artist_name': self.artist.name,
+            'description': self.description,
+        }

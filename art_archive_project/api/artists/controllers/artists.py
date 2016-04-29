@@ -4,6 +4,7 @@ from flask import request
 from api.artists.models import Artist
 from api.artists.controllers import artists_api
 from api.utils.json_decorator import json
+from api.utils.errors import unprocessable_entry
 
 
 @artists_api.route("/", methods=['GET', 'POST'])
@@ -20,26 +21,20 @@ def artists_list():
         elif order == 'desc':
             artists = Artist.query.order_by(-Artist.id).all()
         else:
-            return {"error": "order parameter invalid, try desc or asc"}, 422
+            return unprocessable_entry("order parameter invalid, try desc or asc")
 
         if count:
             try:
                 count = int(count)
                 if count <= 0:
-                    return {"error": "count parameter must be 'positive' integer"}, 422
+                    return unprocessable_entry("count parameter must be 'positive' integer")
                 artists = artists[:count]
             except ValueError:
-                return {"error": "count parameter must be positive 'integer'"}, 422
+                return unprocessable_entry("count parameter must be positive 'integer'")
 
         data = []
         for artist in artists:
-            datum = {}
-            datum['id'] = artist.id
-            datum['name'] = artist.name
-            datum['birth_year'] = artist.birth_year
-            datum['death_year'] = artist.death_year
-            datum['country'] = artist.country
-            datum['genre'] = artist.genre
+            datum = artist.to_json
             datum['detail_href'] = request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=artist.id)
             data.append(datum)
         return {"data": data}, 200
@@ -47,30 +42,25 @@ def artists_list():
     if request.method == 'POST':
         from api import db
 
-        name = request.values.get('name')
-        country = request.values.get('country')
-        genre = request.values.get('genre')
-        birth_year = request.values.get('birth_year')
-        death_year = request.values.get('death_year')
+        input_params = ['name', 'country', 'genre', 'birth_year', 'death_year']
 
-        # Required Fields: name, country, genre
-        if not (name and country and genre):
-            return {"error": "name, country, genre are required parameters"}, 422
+        params = {
+            param: request.values[param]
+            for param in request.values
+            if param in input_params
+        }
 
-        new_artist = Artist(name=name, country=country, genre=genre, birth_year=birth_year, death_year=death_year)
+        if not ('name' in params and 'country' in params and 'genre' in params):
+            return unprocessable_entry("name, country, genre are required parameters")
+
+        new_artist = Artist(**params)
         db.session.add(new_artist)
 
         try:
             db.session.commit()
-            data = {}
-            data['id'] = new_artist.id
-            data['name'] = new_artist.name
-            data['birth_year'] = new_artist.birth_year
-            data['death_year'] = new_artist.death_year
-            data['country'] = new_artist.country
-            data['genre'] = new_artist.genre
-            data['artworks_href'] = "Not implemented yet"
-            return {"data": data}, 200
+            data = new_artist.to_json
+            data['artworks_href'] = request.host_url[:-1] + url_for('artists_api.artists_artworks', artist_id=new_artist.id)
+            return {"data": data}, 201
 
         except Exception:
-            return {"error": "name, country, genre should be string, birth_year, death_year should by int"}, 422
+            return unprocessable_entry("name, country, genre should be string, birth_year, death_year should by int")

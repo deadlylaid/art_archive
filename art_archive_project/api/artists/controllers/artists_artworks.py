@@ -4,6 +4,7 @@ from flask import request
 from api.artists.models import Artist
 from api.artists.controllers import artists_api
 from api.utils.json_decorator import json
+from api.utils.errors import not_found
 
 
 @artists_api.route("/<int:artist_id>/artworks/", methods=['GET'])
@@ -13,16 +14,9 @@ def artists_artworks(artist_id):
     if artist:
         data = []
         for image in artist.images:
-            temp = {}
-            temp['id'] = image.id
-            temp['image_url'] = image.image_url
-            temp['title'] = image.title
-            temp['year'] = image.year
-            temp['artist_id'] = artist.id
-            temp['artist_name'] = artist.name
-            temp['description'] = image.description
-            temp['detail_href'] = "http://localhost:8000/images/"+str(image.id)
-            # temp['detail_href'] = request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
-            data.append(temp)
+            datum = image.to_json
+            datum['detail_href'] = \
+                request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
+            data.append(datum)
         return {"data": data}, 200
-    return {"error": "URL path invalid, check artist_id"}, 404
+    return not_found("URL path invalid, check artist_id")
