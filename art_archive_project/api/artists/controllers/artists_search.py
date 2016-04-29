@@ -12,14 +12,14 @@ from api.utils.errors import bad_request, unprocessable_entry
 @artists_api.route("/search/", methods=['GET'])
 @json
 def artists_search():
-    # Handling parameters
+
     params = {
         param: request.args[param]
         for param in request.args
         if param in ['name', 'country', 'genre', 'alive_in', 'max_items', 'order']
     }
 
-    if not len(params):
+    if not params:
         return bad_request("at least one parameter is required for search function")
 
     current_query = Artist.query
@@ -43,7 +43,7 @@ def artists_search():
 
     max_items = params.get('max_items', None)
     if max_items:
-        current_query = current_query.limit(params['max_items'])
+        current_query = current_query.limit(max_items)
 
     query_result = current_query.all()
 
