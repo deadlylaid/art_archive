@@ -15,7 +15,7 @@ from api.utils.nullify import nullify
 @json
 def images_list_get():
     order = request.args.get('order', 'asc')
-    count = request.args.get('count', None)
+    count = request.args.get('count', None, type=int)
 
     if order == 'asc':
         images = Image.query.order_by(Image.year).all()
@@ -23,20 +23,8 @@ def images_list_get():
         images = Image.query.order_by(-Image.year).all()
     else:
         return unprocessable_entry("order parameter invalid, try desc or asc")
-
     if count:
-        try:
-            count = int(count)
-            if count <= 0:
-                return unprocessable_entry("count parameter must be 'positive' integer")
-            images = images[:count]
-        except ValueError:
-            return unprocessable_entry("count parameter must be positive 'integer'")
+        images = images[:count]
 
-    data = []
-    for image in images:
-        datum = image.to_json
-        datum['detail_href'] = \
-            get_absolute_url('images_api.images_detail', image_id=image.id)
-        data.append(datum)
+    data = [image.to_json_with_detail for image in images]
     return ok_response(data)
