@@ -5,7 +5,7 @@ from api.artists.controllers import artists_api
 from api.utils.json_decorator import json
 from api.utils.nullify import nullify
 from api.utils.errors import unprocessable_entry
-from api.utils.create_new_artist import create_new_artist
+from api.artists.utils import create_new_artist
 
 
 @artists_api.route("/", methods=['POST'])
