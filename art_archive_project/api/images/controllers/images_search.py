@@ -37,6 +37,8 @@ def images_search():
         current_query = current_query.join(Image.artist).filter(Artist.name.contains(artist_name))
     if genre:
         current_query = current_query.join(Image.artist).filter(Artist.genre.contains(genre))
+    if description:
+        current_query = current_query.filter(Image.description.contains(description))
     if order:
         if order == "asc":
             current_query = current_query.order_by(Image.year)
