@@ -40,3 +40,10 @@ class Image(db.Model):
         data = self.to_json
         data['detail_href'] = get_absolute_url('images_api.images_detail', image_id=self.id)
         return data
+
+
+    @property
+    def to_json_with_artist(self):
+        data = self.to_json
+        data['artist_href'] = get_absolute_url('artists_api.artists_detail', artist_id=self.artist.id)
+        return data
