@@ -15,7 +15,7 @@ class Image(db.Model):
         self.artist = artist
         self.image_url = image_info.get('image_url')
         self.title = image_info.get('title')
-        self.year = image_info.get('year', None)
+        self.year = image_info.get('image_year', None)
         self.description = image_info.get('image_description', None)
 
     def __repr__(self):
