@@ -66,4 +66,4 @@ def artists_list():
             return created_response(data)
 
         except Exception:
-            return unprocessable_entry("name, country, genre should be string, birth_year, death_year should by int")
+            return unprocessable_entry("name, country, genre should be string, birth_year, death_year should be integer")
