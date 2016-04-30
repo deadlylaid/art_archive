@@ -7,6 +7,7 @@ from api.utils.json_decorator import json
 from api.utils.response_wrapper import ok_response, created_response
 from api.utils.errors import unprocessable_entry
 from api.utils.url_helper import get_absolute_url
+from api.utils.nullify import nullify
 
 
 @artists_api.route("/", methods=['GET', 'POST'])
@@ -49,6 +50,7 @@ def artists_list():
             param: request.values[param]
             for param in request.values
             if param in input_params
+            if nullify(request.values[param])
         }
 
         if not ('name' in params and 'country' in params and 'genre' in params):
