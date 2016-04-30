@@ -72,8 +72,8 @@ def images_list():
         try:
             db.session.commit()
             data = new_image.to_json
-            data['detail_href'] = get_absolute_url('images_api.images_detail', image_id=image.id)
+            data['detail_href'] = get_absolute_url('images_api.images_detail', image_id=new_image.id)
             return created_response(data)
 
         except Exception:
-            return unprocessable_entry("title, image_url, description should be string, year should be integer")
+            return unprocessable_entry("title, image_url, image_description should be string, year should be integer")
