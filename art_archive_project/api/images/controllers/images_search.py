@@ -1,4 +1,3 @@
-from flask import url_for
 from flask import request
 
 from sqlalchemy import or_
@@ -8,16 +7,16 @@ from api.artists.models import Artist
 from api.images.controllers import images_api
 from api.utils.json_decorator import json
 from api.utils.errors import bad_request, unprocessable_entry
+from api.utils.response_wrapper import ok_response
+from api.utils.url_helper import get_absolute_url
 
 
 @images_api.route("/search/", methods=['GET'])
 @json
 def images_search():
-    # Handling parameters
     title = request.args.get('title', None)
     year = request.args.get('year', None)
 
-    # Get from artist
     artist_name = request.args.get('artist_name', None)
     genre = request.args.get('genre', None)
     description = request.args.get('description', None)
@@ -54,12 +53,15 @@ def images_search():
     for image in query_result:
         datum = image.to_json
         datum['genre'] = image.artist.genre
-        datum['detail_href'] = request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
+        datum['detail_href'] = get_absolute_url('images_api.images_detail', image_id=image.id)
         data.append(datum)
     if not data:
-        return {"meta": {"response_msg": "No results were retrieved from database"}, "data": None}, 200
+        msg = "No results were retrieved from database"
+        return ok_response(None, msg=msg)
+        
     if max_items and int(max_items) > len(data):
-        return {"meta": {"response_msg": "requested with max_items: \
-                {0} but only {1} items were found matching the query"
-                .format(max_items, len(data))}, "data": data}, 200
-    return {"data": data}, 200
+        msg = "requested with max_items: \
+                {0} but only {1} item were found \
+                matching the query".format(max_items, len(data))
+        return ok_response(data, msg=msg)
+    return ok_response(data)

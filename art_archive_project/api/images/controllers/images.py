@@ -1,11 +1,14 @@
 from flask import request
-from flask import url_for
 
+from api import db
 from api.images.models import Image
 from api.artists.models import Artist
 from api.images.controllers import images_api
 from api.utils.json_decorator import json
 from api.utils.errors import unprocessable_entry
+from api.utils.response_wrapper import ok_response, created_response
+from api.utils.url_helper import get_absolute_url
+from api.utils.nullify import nullify
 
 
 @images_api.route("/", methods=['GET', 'POST'])
@@ -37,13 +40,11 @@ def images_list():
         for image in images:
             datum = image.to_json
             datum['detail_href'] = \
-                request.host_url[:-1] + url_for('images_api.images_detail', image_id=image.id)
+                get_absolute_url('images_api.images_detail', image_id=image.id)
             data.append(datum)
-        return {"data": data}, 200
+        return ok_response(data)
 
     if request.method == 'POST':
-        from api import db
-        from api.utils.nullify import nullify
 
         required_params = ['title', 'image_url', 'image_year', 'artist_name', 'image_description']
 
@@ -71,9 +72,8 @@ def images_list():
         try:
             db.session.commit()
             data = new_image.to_json
-            data['detail_href'] = \
-                request.host_url[:-1] + url_for('images_api.images_detail', image_id=new_image.id)
-            return {"data": data}, 201
+            data['detail_href'] = get_absolute_url('images_api.images_detail', image_id=image.id)
+            return created_response(data)
 
         except Exception:
             return unprocessable_entry("title, image_url, description should be string, year should be integer")
