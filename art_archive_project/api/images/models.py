@@ -16,7 +16,7 @@ class Image(db.Model):
         self.image_url = image_info.get('image_url')
         self.title = image_info.get('title')
         self.year = image_info.get('year', None)
-        self.description = image_info.get('description', None)
+        self.description = image_info.get('image_description', None)
 
     def __repr__(self):
         return '<Image: {}>'.format(self.title)
