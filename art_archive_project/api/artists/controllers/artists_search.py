@@ -1,4 +1,3 @@
-from flask import url_for
 from flask import request
 
 from sqlalchemy import or_
@@ -6,7 +5,9 @@ from sqlalchemy import or_
 from api.artists.models import Artist
 from api.artists.controllers import artists_api
 from api.utils.json_decorator import json
+from api.utils.response_wrapper import ok_response
 from api.utils.errors import bad_request, unprocessable_entry
+from api.utils.url_helper import get_absolute_url
 
 
 @artists_api.route("/search/", methods=['GET'])
@@ -51,12 +52,14 @@ def artists_search():
     for artist in query_result:
         datum = artist.to_json
         datum['detail_href'] = \
-            request.host_url[:-1] + url_for('artists_api.artists_detail', artist_id=artist.id)
+            get_absolute_url('artists_api.artists_detail', artist_id=artist.id)
         data.append(datum)
     if not data:
-        return {"meta": {"response_msg": "No results were retrieved from database"}, "data": None}, 200
+        msg = "No results were retrieved from database"
+        return ok_response(None, msg=msg)
     if max_items and int(max_items) > len(data):
-        return {"meta": {"response_msg": "requested with max_items: \
-                {0} but only {1} items were found matching the query"
-                .format(max_items, len(data))}, "data": data}, 200
-    return {"data": data}, 200
+        msg = "requested with max_items: \
+            {0} but only {1} items were found \
+            matching the query".format(max_items, len(data))
+        return ok_response(data, msg=msg)
+    return ok_response(data)
