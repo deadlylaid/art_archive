@@ -2,6 +2,7 @@ from datetime import datetime
 from api import db
 from api.images.models import Image
 from api.utils.nullify import nullify
+from api.utils.url_helper import get_absolute_url
 
 
 class Artist(db.Model):
@@ -43,3 +44,10 @@ class Artist(db.Model):
             'country': self.country,
             'genre': self.genre,
         }
+
+
+    @property
+    def to_json_with_detail(self):
+        data = self.to_json
+        data['detail_href'] = get_absolute_url('artists_api.artists_detail', artist_id=self.id)
+        return data
