@@ -1,4 +1,5 @@
 from api import db
+from api.utils.url_helper import get_absolute_url
 
 
 class Image(db.Model):
@@ -32,3 +33,10 @@ class Image(db.Model):
             'artist_name': self.artist.name,
             'description': self.description,
         }
+
+
+    @property
+    def to_json_with_detail(self):
+        data = self.to_json
+        data['detail_href'] = get_absolute_url('images_api.images_detail', image_id=self.id)
+        return data

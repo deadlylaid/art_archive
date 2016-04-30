@@ -13,11 +13,6 @@ from api.utils.url_helper import get_absolute_url
 def artists_artworks(artist_id):
     artist = Artist.query.get(artist_id)
     if artist:
-        data = []
-        for image in artist.images:
-            datum = image.to_json
-            datum['detail_href'] = \
-                get_absolute_url('images_api.images_detail', image_id=image.id)
-            data.append(datum)
+        data = [image.to_json_with_detail for image in artist.images]
         return ok_response(data)
     return not_found("URL path invalid, check artist_id")

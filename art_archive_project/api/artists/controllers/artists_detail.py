@@ -13,8 +13,5 @@ from api.utils.url_helper import get_absolute_url
 def artists_detail(artist_id):
     artist = Artist.query.get(artist_id)
     if artist:
-        data = artist.to_json
-        data['artworks_href'] = \
-            get_absolute_url('artists_api.artists_artworks', artist_id=artist.id)
-        return ok_response(data)
+        return ok_response(artist.to_json_with_artworks)
     return not_found("URL path invalid, check artist_id")
