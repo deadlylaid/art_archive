@@ -1,2 +1,1 @@
-from .get_filtered_query_result import get_filtered_query_result
 from .create_new_artist import create_new_artist

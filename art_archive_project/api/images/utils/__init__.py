@@ -1,2 +1,1 @@
 from .create_new_image import create_new_image
-from .get_filtered_query_result import get_filtered_query_result

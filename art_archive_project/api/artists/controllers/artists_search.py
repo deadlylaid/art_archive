@@ -6,9 +6,7 @@ from api.artists.models import Artist
 from api.artists.controllers import artists_api
 from api.utils.json_decorator import json
 from api.utils.response_wrapper import ok_response
-from api.utils.errors import bad_request, unprocessable_entry
-from api.utils.url_helper import get_absolute_url
-from api.artists.utils import get_filtered_query_result
+from api.utils.errors import bad_request
 
 
 @artists_api.route("/search/", methods=['GET'])
@@ -22,7 +20,7 @@ def artists_search():
     if not params:
         return bad_request("at least one parameter is required for search function")
 
-    query_result, error = get_filtered_query_result(Artist.query, params)
+    query_result, error = Artist.filter_by_params(params)
     if error: return error
 
     data = [artist.to_json_with_detail for artist in query_result]
