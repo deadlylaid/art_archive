@@ -1,6 +1,5 @@
 from datetime import datetime
 from api import db
-from api.images.models import Image
 from api.utils.url_helper import get_absolute_url
 
 
@@ -14,7 +13,7 @@ class Artist(db.Model):
     country = db.Column(db.String(45))
     genre = db.Column(db.String(45))
     images = db.relationship(
-        Image,
+        'Image',
         backref=db.backref('artist'),
     )
     created_at = db.Column(db.DateTime(timezone=False))

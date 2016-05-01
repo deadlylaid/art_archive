@@ -1,5 +1,7 @@
 from api import db
 from api.utils.url_helper import get_absolute_url
+from api.utils.errors import unprocessable_entry
+from api.artists.models import Artist
 
 
 class Image(db.Model):
@@ -21,6 +23,69 @@ class Image(db.Model):
 
     def __repr__(self):
         return '<Image: {}>'.format(self.title)
+
+
+    @classmethod
+    def filter_by_params(cls, params): 
+        query = cls.query
+        if 'title' in params:
+            query = cls.filter_by_title(query, params['title'])
+        if 'year' in params:
+            query = cls.filter_by_year(query, params['year'])
+        if 'artist_name' in params:
+            query = cls.filter_by_artist_name(query, params['artist_name'])
+        if 'genre' in params:
+            query = cls.filter_by_genre(query, params['genre'])
+        if 'description' in params:
+            query = cls.filter_by_description(query, params['description'])
+        if 'order' in params:
+            query, error = cls.filter_by_order(query, params['order'])
+            if error: return None, error
+        if 'max_items' in params:
+            query = cls.filter_by_max_items(query, params['max_items'])
+        return query.all(), None
+
+
+    @classmethod
+    def filter_by_title(cls, query, title): 
+        return query.filter(cls.title.contains(title))
+
+
+    @classmethod
+    def filter_by_year(cls, query, year): 
+        return query.filter(cls.year == year)
+
+
+    @classmethod
+    def filter_by_artist_name(cls, query, artist_name): 
+        return query.join(cls.artist).filter(Artist.name.contains(artist_name))
+
+
+    @classmethod
+    def filter_by_genre(cls, query, genre): 
+        return query.join(cls.artist).filter(Artist.genre.contains(genre))
+
+
+    @classmethod
+    def filter_by_description(cls, query, description): 
+        return query.filter(cls.description.contains(description))
+
+
+    @classmethod
+    def filter_by_order(cls, query, order): 
+        if not order in ['desc', 'asc']:
+            return None, unprocessable_entry("oarder parameter invalid, try desc or asc")
+        if order == 'desc':
+            return query.order_by(-cls.year), None
+        return query.order_by(cls.year), None
+
+
+    @classmethod
+    def filter_by_max_items(cls, query, max_items): 
+        if max_items.isdigit():
+            return query.limit(max_items)
+        return query
+
 
     @property
     def to_json(self):
