@@ -23,7 +23,7 @@
 
       * `order`
 
-        Order of artist shown based on `id` data of artist. `desc` will show artist in descending order, whereas `asc` with show artist in ascending order. If not specified default `order` value is `asc`
+        Order of artist shown based on `created_at` data of artist. `desc` will show artist in descending order, whereas `asc` with show artist in ascending order. If not specified default `order` value is `asc`
 
 
 * **Data Params:**

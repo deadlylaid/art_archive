@@ -16,9 +16,9 @@ def artists_list_get():
     count = request.args.get('count', None, type=int)
 
     if order == 'asc':
-        artists = Artist.query.order_by(Artist.id).all()
+        artists = Artist.query.order_by(Artist.created_at).all()
     elif order == 'desc':
-        artists = Artist.query.order_by(-Artist.id).all()
+        artists = Artist.query.order_by(-Artist.created_at).all()
     else:
         return unprocessable_entry("order parameter invalid, try desc or asc")
     if count:
