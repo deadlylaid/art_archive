@@ -31,17 +31,17 @@
       * `artist_name`
 
         usage:
-        `/images/search/?artist_name=레오나르도 다 빈치?year=1517&title=모나리자`
+        `/images/search/?artist_name=레오나르도 다 빈치&year=1517&title=모나리자`
 
       * `genre`
 
         usage:
-        `/images/search/?genre=르네상스?artist_name=레오나르도 다 빈치?year=1517&title=모나리자`
+        `/images/search/?genre=르네상스&artist_name=레오나르도 다 빈치&year=1517&title=모나리자`
 
       * `description`
 
         usage:
-        `/images/search/?description=나무판 위에 유채?genre=르네상스?artist_name=레오나르도 다 빈치?year=1517&title=모나리자`
+        `/images/search/?description=나무판 위에 유채&genre=르네상스&artist_name=레오나르도 다 빈치&year=1517&title=모나리자`
 
       * `max_items`
 

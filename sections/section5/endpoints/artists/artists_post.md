@@ -58,7 +58,7 @@
 
     ```
     {
-      "error" : "name field is required for adding an artist.",
+      "error" : "name, country, genre are required parameters",
     }
     ```
 

@@ -40,14 +40,14 @@
    ```
    {
      "data" : {
-       "id" : 12,
-       "image_url": "https://new.image.path.jpg",
-       "title": "New Image title",
-       "year": 2016,
-       "artist_id": 1,
-       "artist_name": "Artist name",
-       "description": "New Image description",
-       "artist_href": "path/to/artist/info",
+           "id" : 12,
+           "image_url": "https://new.image.path.jpg",
+           "title": "New Image title",
+           "year": 2016,
+           "artist_id": 1,
+           "artist_name": "Artist name",
+           "description": "New Image description",
+           "artist_href": "path/to/artist/info",
      }
    }
    ```

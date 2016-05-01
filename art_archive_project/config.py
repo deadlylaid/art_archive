@@ -2,7 +2,7 @@ import os
 
 
 # Setting parameters for art_archive_project
-DEBUG = True
+DEBUG = False
 
 # Host address, Port
 HOST = '127.0.0.1'

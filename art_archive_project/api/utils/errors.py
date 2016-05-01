@@ -1,4 +1,6 @@
-from api.utils.json_decorator import json
+from flask import jsonify
+
+from api import app
 
 
 def unprocessable_entry(message):
@@ -13,6 +15,9 @@ def bad_request(message):
     return {"error": message}, 400
 
 
-def internal_server_error():
-    return {"error": "The server encountered an unexpected condition \
-        which prevented it from fulfilling the request."}, 500
+@app.errorhandler(500)
+def internal_server_error(error):
+    error_msg = jsonify({"error": "The server encountered an unexpected condition \
+        which prevented it from fulfilling the request."})
+    error_msg.status_code = 500
+    return error_msg

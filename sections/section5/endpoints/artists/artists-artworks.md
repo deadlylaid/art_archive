@@ -26,6 +26,7 @@
     The structure of the success response is identical to the success response of `images/`.
 
     * **Code:** 200 OK
+    
       ```
       {
         "data" : [
