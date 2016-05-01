@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Art_archive restful api</title>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+        ul.nav>p{
+            font-weight: 800;
+            color: black;
+        }
+    </style>
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <p class="navbar-text">Art_archive API</p>
+            </ul>
+            
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8">
+                <div id="images">
+                    <h5><a href="images/" target="_blank">[GET] images/ </a></h5>
+                    <h5><a href="#images" target="_blank">[POST] images/ </a></h5>
+                    <div class="insert-image">
+                        <h5>Insert Image info</h5>
+                            <label>Title</label>
+                            <input id="title" class="text" value="별헤는 밤" name="title" type="text">
+                            </br>
+                            <label>Image_url</label>
+                            <input id="image_url" class="text" value="http://naver.com" name="image_url" type="text">
+                            </br>
+                            <label>Year</label>
+                            <input id="year" class="text" value="1800" name="year" type="text">
+                            </br>
+                            <label>Artist name</label>
+                            <input id="artist_name" value="빈센트 반 고흐" class="text" name="artist_name" type="text">
+                            </br>
+                            <label>Description</label>
+                            <input id="description" value="유채" class="text" name="description" type="text">
+                            <input id="submit-image" value="add image" name="submit" type="submit">
+                    </div>
+                    <div class="detail-image">
+                        <h5><a>[GET] images/:image_id </a></h5>
+                            <label>Image id</label>
+                            <input id="image_id" class="text" name="image_id" type="text">
+                            <input id="image_id_submit" value="get image detail" name="submit" type="submit">
+                    </div>
+                    <div class="search-image">
+                        <h5><a>[GET] images/search/ </a></h5>
+                            <label>Search parameters: title, year, artist_name, genre, description, max_items, order</label>
+                            <p>example: description=나무판 위에 유채&genre=르네상스&artist_name=레오나르도 다 빈치&year=1517&title=모나리자</p>
+                            </br>
+                            <input id="image_search" class="text" value="?description=나무판 위에 유채&genre=르네상스&artist_name=레오나르도 다 빈치&year=1517&title=모나리자" name="image_id" type="text">
+                            <input id="image_search_submit" value="search" name="submit" type="submit">
+                    </div>
+                    
+                </div>
+                <hr>
+                <div id="artists">
+                    <h5><a href="artists/" target="_blank">[GET] artists/ </a></h5>
+                    <h5><a href="#artists" target="_blank">[POST] artists/ </a></h5>
+                    <div class="insert-artist">
+                        <h5>Insert Artist info</h5>
+                            <label>Name</label>
+                            <input id="name" class="text" name="name" type="text">
+                            </br>
+                            <label>Country</label>
+                            <input id="country" class="text" name="country" type="text">
+                            </br>
+                            <label>Genre</label>
+                            <input id="genre" class="text" name="genre" type="text">
+                            </br>
+                            <label>Birth year(optional)</label>
+                            <input id="birth" class="text" name="birth_year" type="text">
+                            </br>
+                            <label>Death year(optional)</label>
+                            <input id="death" class="text" name="death_year" type="text">
+                            <input id="submit" value="Submit" name="submit" type="submit">
+                        </div>
+                    <div class="detail-artist">
+                        <h5><a>[GET] artists/:artist_id </a></h5>
+                        <h5><a>[GET] artists/:artist_id/artworks/</a></h5>
+                            <label>Artist id</label>
+                            <input id="artist_id" class="text" name="artist_id" type="text">
+                            <input id="artist_id_submit" value="get artist detail" name="submit" type="submit">
+                            <input id="artist_id_submit_artwork" value="get artist artworks" name="submit" type="submit">
+                    </div>
+                    <div class="search-artist">
+                        <h5><a>[GET] artists/search/ </a></h5>
+                            <label>Search parameters: name, country, genre, alive_in, max_items, order</label>
+                            <p>alive_in=1877&genre=인상주의&country=네더란드&name=빈센트</p>
+                            </br>
+                            <input id="artist_search" class="text" value="alive_in=1877&genre=인상주의&country=네더란드&name=빈센트" name="artist_id" type="text">
+                            <input id="artist_search_submit" value="search" name="submit" type="submit">
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <p>Response</p>
+                <iframe style="width: 100%" class="results">
+                </iframe>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+<script>
+  $name = $('#name'); 
+  $country = $('#country'); 
+  $genre = $('#genre'); 
+  $birth = $('#birth'); 
+  $death = $('#death'); 
+  $submit = $('#submit');
+  $iframe = $('.results');
+
+  $submit.on("click", function(){
+      name = $name.val(); 
+      country = $country.val(); 
+      genre = $genre.val(); 
+      birth = $birth.val(); 
+      death = $death.val(); 
+
+      $.ajax({
+        url: "/artists/",
+        dataType: "json",
+        type : "POST",
+        data : {
+          "name": name,
+          "country": country,
+          "genre": genre,
+          "birth_year": birth,
+          "death_year": death,
+        },
+        success : function(r) {
+          console.log(r);
+          $iframe.contents().find('html').html(JSON.stringify(r));
+        },
+        error: function(r) {
+          console.log(r.responseText);
+          $iframe.contents().find('html').html(JSON.stringify(r.responseText));
+        }
+      });
+  })
+
+  $title = $('#title'); 
+  $image_url = $('#image_url'); 
+  $year = $('#year'); 
+  $artist_name = $('#artist_name'); 
+  $description = $('#description'); 
+  $submit_image = $('#submit-image');
+
+  $submit_image.on("click", function(){
+      title = $title.val(); 
+      image_url = $image_url.val(); 
+      year = $year.val(); 
+      artist_name = $artist_name.val(); 
+      description = $description.val(); 
+
+        console.log({
+          "title": title,
+          "image_url": image_url,
+          "image_year": year,
+          "artist_name": artist_name,
+          "image_description": description,
+        });
+      $.ajax({
+        url: "/images/",
+        dataType: "json",
+        type : "POST",
+        data : {
+          "title": title,
+          "image_url": image_url,
+          "image_year": year,
+          "artist_name": artist_name,
+          "image_description": description,
+        },
+        success : function(r) {
+          console.log(r);
+          $iframe.contents().find('html').html(JSON.stringify(r));
+        },
+        error: function(r) {
+          console.log(r.responseText);
+          $iframe.contents().find('html').html(JSON.stringify(r.responseText));
+        }
+      });
+  })
+    // Getting detail image
+    $detail_image = $('#image_id_submit');
+        $detail_image_id = $('#image_id')
+        $detail_image.on("click", function(){
+            event.preventDefault();
+            $iframe.attr('src', 'images/'+$detail_image_id.val())
+        })
+
+    // Getting detail artist or artwork
+        $detail_artist = $('#artist_id_submit');
+        $detail_artist_artwork = $('#artist_id_submit_artwork');
+        $detail_artist_id = $('#artist_id')
+        $detail_artist.on("click", function(){
+            event.preventDefault();
+            $iframe.attr('src', 'artists/'+$detail_artist_id.val())
+        })
+        $detail_artist_artwork.on("click", function(){
+            event.preventDefault();
+            $iframe.attr('src', 'artists/'+$detail_artist_id.val()+'/artworks/')
+        })
+                        
+    // searching for image
+    $search_image = $('#image_search_submit');
+        $search_image_id = $('#image_search')
+        $search_image.on("click", function(){
+            event.preventDefault();
+            $iframe.attr('src', 'images/search/?'+$search_image_id.val())
+        })
+
+    // searching for artist
+    $search_artist = $('#artist_search_submit');
+        $search_artist_id = $('#artist_search')
+        $search_artist.on("click", function(){
+            event.preventDefault();
+            $iframe.attr('src', 'artists/search/?'+$search_artist_id.val())
+        })
+</script>
+</html>

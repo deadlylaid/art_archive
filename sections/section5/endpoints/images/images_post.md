@@ -35,48 +35,41 @@
 
 * **Success Response:**
 
-  ```
-  {
-    "meta" : {
-      "response_code" : 201  
-    },
-    "data" : {
-      "id" : 12,
-      "image_url": "https://new.image.path.jpg",
-      "title": "New Image title",
-      "year": 2016,
-      "artist_id": 1,
-      "artist_name": "Artist name",
-      "description": "New Image description",
-      "artist_href": "path/to/artist/info",
-    }
-  }
-  ```
+ * **Code:** 201 CREATED
+
+   ```
+   {
+     "data" : {
+           "id" : 12,
+           "image_url": "https://new.image.path.jpg",
+           "title": "New Image title",
+           "year": 2016,
+           "artist_id": 1,
+           "artist_name": "Artist name",
+           "description": "New Image description",
+           "artist_href": "path/to/artist/info",
+     }
+   }
+   ```
 
 * **Error Response:**
-  ```
-  {
-    "meta" : {
-      "response_code" : 422 ,
-      'error_type" : "UNPROCESSABLE ENTRY",
-      "error_msg" : "artist_name not found, artist_name should be in our artists database to add new image.",
-    },
-    "data" : null,
-  }
-  ```
 
-  ```
-  {
-    "meta" : {
-      "response_code" : 500 ,
-      'error_type" : "INTERNAL SERVER ERROR",
-      "error_msg" : "The server encountered an unexpected condition which prevented it
-   from fulfilling the request.",
-    },
-    "data" : null,
-  }
-  ```
-  
+ * **Code:** 422 UNPROCESSABLE ENTRY
+
+   ```
+   {
+     "error" : "artist_name not found, artist_name should be in our artists database to add new image.",
+   }
+   ```
+
+ * **Code:** 500 INTERNAL SERVER ERROR
+
+   ```
+   {
+     "error" : "The server encountered an unexpected condition which prevented it from fulfilling the request."
+   }
+   ```
+
 * **Sample Call:**
 
   ```javascript
