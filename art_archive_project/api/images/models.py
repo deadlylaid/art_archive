@@ -74,7 +74,7 @@ class Image(db.Model):
     @classmethod
     def filter_by_order(cls, query, order): 
         if not order in ['desc', 'asc']:
-            return None, unprocessable_entry("oarder parameter invalid, try desc or asc")
+            return None, unprocessable_entry("order parameter invalid, try desc or asc")
         if order == 'desc':
             return query.order_by(-cls.year), None
         return query.order_by(cls.year), None

@@ -17,12 +17,11 @@ def images_list_get():
     order = request.args.get('order', 'asc')
     count = request.args.get('count', None, type=int)
 
-    if order == 'asc':
-        images = Image.query.order_by(Image.year).all()
-    elif order == 'desc':
-        images = Image.query.order_by(-Image.year).all()
-    else:
-        return unprocessable_entry("order parameter invalid, try desc or asc")
+    images_query, error = Image.filter_by_order(Image.query, order)
+    if error: return error
+
+    images = images_query.all()
+
     if count:
         images = images[:count]
 

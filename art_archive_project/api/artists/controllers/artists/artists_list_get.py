@@ -15,12 +15,11 @@ def artists_list_get():
     order = request.args.get('order', 'asc')
     count = request.args.get('count', None, type=int)
 
-    if order == 'asc':
-        artists = Artist.query.order_by(Artist.created_at).all()
-    elif order == 'desc':
-        artists = Artist.query.order_by(-Artist.created_at).all()
-    else:
-        return unprocessable_entry("order parameter invalid, try desc or asc")
+    artists_query, error = Artist.filter_by_order(Artist.query, order)
+    if error: return error
+
+    artists = artists_query.all()
+
     if count:
         artists = artists[:count]
 
